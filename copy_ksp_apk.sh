@@ -7,4 +7,4 @@ cp -rf ../ksp/ksp/release/*   ./ksp/
 git pull
 git add ksp/*
 git commit -sm "v$(head -n1 ksp/ksp.version)"
-git push -u origin HEAD:main
+git push -u origin HEAD:master
