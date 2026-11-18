@@ -1,0 +1,41 @@
+{
+  "version": 3,
+  "path_base": "project_root",
+  "project": "kidguard-org",
+  "source": "../studio-os",
+  "sha256": "77fe87a1335b0bf772ebf98b91d4b42a7f8f39308d18de47b4ee5c14e26dad9b",
+  "startup_hooks": {
+    ".codex/hooks.json": [
+      {
+        "event": "SessionStart",
+        "entry": {
+          "matcher": "^(startup|resume|clear|fork)$",
+          "hooks": [
+            {
+              "type": "command",
+              "command": "python3 -c 'import json, os, sys\nfrom pathlib import Path\np=json.load(sys.stdin)\nroots=p.get(\"workspace_roots\") or p.get(\"workspacePaths\") or []\nif p.get(\"cwd\"): roots=[p[\"cwd\"]]+roots\nroots=list(roots)+[os.getcwd()]\nfound=None\nfor value in roots:\n    start=Path(value).resolve()\n    for root in [start,*start.parents]:\n        state=root/\".studio-os/central.json\"\n        if state.is_file() and not state.is_symlink() and not state.parent.is_symlink():\n            data=json.loads(state.read_text())\n            if data.get(\"project\")=='\"'\"'kidguard-org'\"'\"' and data.get(\"version\") in (2,3) and not Path(data[\"source\"]).is_absolute():\n                found=(root,(root/data[\"source\"]).resolve())\n                break\n    if found: break\nif found is None: raise SystemExit(\"Studio OS: no matching portable project binding\")\nsys.path.insert(0,str(found[1]))\nfrom studio_os.startup import entry\nraise SystemExit(entry(found[0],'\"'\"'codex'\"'\"',p))\n'"
+            }
+          ]
+        }
+      }
+    ],
+    ".cursor/hooks.json": [
+      {
+        "event": "workspaceOpen",
+        "entry": {
+          "command": "python3 -c 'import json, os, sys\nfrom pathlib import Path\np=json.load(sys.stdin)\nroots=p.get(\"workspace_roots\") or p.get(\"workspacePaths\") or []\nif p.get(\"cwd\"): roots=[p[\"cwd\"]]+roots\nroots=list(roots)+[os.getcwd()]\nfound=None\nfor value in roots:\n    start=Path(value).resolve()\n    for root in [start,*start.parents]:\n        state=root/\".studio-os/central.json\"\n        if state.is_file() and not state.is_symlink() and not state.parent.is_symlink():\n            data=json.loads(state.read_text())\n            if data.get(\"project\")=='\"'\"'kidguard-org'\"'\"' and data.get(\"version\") in (2,3) and not Path(data[\"source\"]).is_absolute():\n                found=(root,(root/data[\"source\"]).resolve())\n                break\n    if found: break\nif found is None: raise SystemExit(\"Studio OS: no matching portable project binding\")\nsys.path.insert(0,str(found[1]))\nfrom studio_os.startup import entry\nraise SystemExit(entry(found[0],'\"'\"'cursor'\"'\"',p))\n'",
+          "timeout": 10
+        }
+      },
+      {
+        "event": "beforeSubmitPrompt",
+        "entry": {
+          "command": "python3 -c 'import json, os, sys\nfrom pathlib import Path\np=json.load(sys.stdin)\nroots=p.get(\"workspace_roots\") or p.get(\"workspacePaths\") or []\nif p.get(\"cwd\"): roots=[p[\"cwd\"]]+roots\nroots=list(roots)+[os.getcwd()]\nfound=None\nfor value in roots:\n    start=Path(value).resolve()\n    for root in [start,*start.parents]:\n        state=root/\".studio-os/central.json\"\n        if state.is_file() and not state.is_symlink() and not state.parent.is_symlink():\n            data=json.loads(state.read_text())\n            if data.get(\"project\")=='\"'\"'kidguard-org'\"'\"' and data.get(\"version\") in (2,3) and not Path(data[\"source\"]).is_absolute():\n                found=(root,(root/data[\"source\"]).resolve())\n                break\n    if found: break\nif found is None: raise SystemExit(\"Studio OS: no matching portable project binding\")\nsys.path.insert(0,str(found[1]))\nfrom studio_os.startup import entry\nraise SystemExit(entry(found[0],'\"'\"'cursor'\"'\"',p))\n'",
+          "timeout": 10
+        }
+      }
+    ],
+    ".agents/hooks.json": "dc88174a1df2ea1b609cc6af739da1ae6146c559e3721ea77e2eb1ec00a927c3"
+  },
+  "gitignore_sha256": "27796d2d299685db5e6df58b37fc4d77e8c4a9961497bd786713cbd30e6b5e57"
+}

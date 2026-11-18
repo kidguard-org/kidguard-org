@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "hooks": {
+    "workspaceOpen": [
+      {
+        "command": "python3 -c 'import json, os, sys\nfrom pathlib import Path\np=json.load(sys.stdin)\nroots=p.get(\"workspace_roots\") or p.get(\"workspacePaths\") or []\nif p.get(\"cwd\"): roots=[p[\"cwd\"]]+roots\nroots=list(roots)+[os.getcwd()]\nfound=None\nfor value in roots:\n    start=Path(value).resolve()\n    for root in [start,*start.parents]:\n        state=root/\".studio-os/central.json\"\n        if state.is_file() and not state.is_symlink() and not state.parent.is_symlink():\n            data=json.loads(state.read_text())\n            if data.get(\"project\")=='\"'\"'kidguard-org'\"'\"' and data.get(\"version\") in (2,3) and not Path(data[\"source\"]).is_absolute():\n                found=(root,(root/data[\"source\"]).resolve())\n                break\n    if found: break\nif found is None: raise SystemExit(\"Studio OS: no matching portable project binding\")\nsys.path.insert(0,str(found[1]))\nfrom studio_os.startup import entry\nraise SystemExit(entry(found[0],'\"'\"'cursor'\"'\"',p))\n'",
+        "timeout": 10
+      }
+    ],
+    "beforeSubmitPrompt": [
+      {
+        "command": "python3 -c 'import json, os, sys\nfrom pathlib import Path\np=json.load(sys.stdin)\nroots=p.get(\"workspace_roots\") or p.get(\"workspacePaths\") or []\nif p.get(\"cwd\"): roots=[p[\"cwd\"]]+roots\nroots=list(roots)+[os.getcwd()]\nfound=None\nfor value in roots:\n    start=Path(value).resolve()\n    for root in [start,*start.parents]:\n        state=root/\".studio-os/central.json\"\n        if state.is_file() and not state.is_symlink() and not state.parent.is_symlink():\n            data=json.loads(state.read_text())\n            if data.get(\"project\")=='\"'\"'kidguard-org'\"'\"' and data.get(\"version\") in (2,3) and not Path(data[\"source\"]).is_absolute():\n                found=(root,(root/data[\"source\"]).resolve())\n                break\n    if found: break\nif found is None: raise SystemExit(\"Studio OS: no matching portable project binding\")\nsys.path.insert(0,str(found[1]))\nfrom studio_os.startup import entry\nraise SystemExit(entry(found[0],'\"'\"'cursor'\"'\"',p))\n'",
+        "timeout": 10
+      }
+    ]
+  }
+}

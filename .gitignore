@@ -1,0 +1,8 @@
+# studio-os:local-cache:start
+# Rebuild with studioctl connect/prepare; commit only the portable binding.
+!/.studio-os/
+/.studio-os/*
+!/.studio-os/central.json
+/.codex/config.toml
+/.cursor/cli.json
+# studio-os:local-cache:end
